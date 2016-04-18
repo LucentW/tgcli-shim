@@ -9,12 +9,8 @@ You _must_ have Lua (5.2+), lua-socket, lua-sec, and lua-cjson installed. To upl
 Clone the repository and set the following values in `config.lua`:
 
  - `bot_api_key` as your bot authorization token from the BotFather.
- - `admin` as your Telegram ID.
+ - `time_offset` (optional) as the difference, in seconds, of your system clock to UTC.
 
-Optionally:
 
- - `time_offset` as the difference, in seconds, of your system clock to UTC.
- - `lang` as the two-letter code representing your language.
-
-When you are ready to start the bot, run `./launch.sh`. If you terminate the bot manually, you risk data loss. If you do you not want the bot to restart automatically, run it with `lua bot.lua`.
+When you are ready to start the bot, run `./launch.sh`. If you terminate the bot manually, you risk data loss. If you do you not want the bot to restart automatically, run it with `lua tgcli-shim.lua`.
 
