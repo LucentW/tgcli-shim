@@ -125,6 +125,21 @@ send_location = function(destination, lat, lng, callback, extra)
 	return callback(extra, false, true)
 end
 
+chat_del_user = function(destination, user, callback, extra)
+	local real_destination = reverse_receiver(destination)
+	local real_user = reverse_receiver(user)
+	if callback == nil then
+		callback = fake_cb
+	end
+	if real_destination ~= nil and real_user ~= nil then
+		kickChatMember(real_destination, real_user)
+		return callback(extra, true, true)
+	end
+	return callback(extra, false, true)
+end
+
+channel_kick_user = chat_del_user
+
 postpone = function(random)
 end
 
