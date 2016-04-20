@@ -52,6 +52,13 @@ convert_message = function(msg)
 	msg.from.peer_id = msg.from.id
 	msg.to.peer_id = msg.to.id
 
+	msg.from.print_name = msg.from.name
+	if msg.chat.type == 'chat' or msg.chat.type == 'channel' then
+		msg.chat.print_name = msg.chat.title
+	else
+		msg.to.print_name = msg.to.name
+	end
+
 	print('Converted msg.')
 	print(' id: '..msg.to.id)
 	print(' peer_id: '..msg.to.peer_id) 
@@ -139,6 +146,24 @@ chat_del_user = function(destination, user, callback, extra)
 end
 
 channel_kick_user = chat_del_user
+
+-- STUB: You cannot get chat members IDs via API calls
+chat_info = function(destination, callback, extra)
+	if callback == nil then
+		callback = fake_cb
+	end
+	local fake_user_list = { { print_name = "API cannot read members", peer_id = 0 } }
+	return callback(extra, true, {members_num = 1, members = fake_user_list})
+end
+
+-- STUB: You cannot get channel/group members IDs via API calls
+channel_get_users = function(destination, callback, extra)
+	if callback == nil then
+		callback = fake_cb
+	end
+	local fake_user_list = { { print_name = "API cannot read members", peer_id = 0 } }
+	return callback(extra, true, fake_user_list)
+end
 
 postpone = function(random)
 end
