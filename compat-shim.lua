@@ -19,7 +19,7 @@ convert_message = function(msg)
 	if msg.left_chat_participant then
 		msg.service = true
 		msg.action.type = 'chat_del_user'
-                msg.action.user.id = msg.left_chat_participant.id
+		msg.action.user.id = msg.left_chat_participant.id
 		msg.from.id = msg.left_chat_participant.id
 	end
 	
@@ -65,6 +65,15 @@ convert_message = function(msg)
 	print(' type: '..msg.to.type)
 
 	return msg
+end
+
+convert_user = function(user)
+	user.peer_id = user.id
+	user.print_name = user.name
+	user.type = 'user'
+	user.peer_type = 'user'
+	user.print_name = build_name(user.first_name, user.last_name)
+	return user
 end
 
 check_if_channel = function(receiver)
@@ -163,6 +172,20 @@ channel_get_users = function(destination, callback, extra)
 	end
 	local fake_user_list = { { print_name = "API cannot read members", peer_id = 0 } }
 	return callback(extra, true, fake_user_list)
+end
+
+-- Gets results from an internal database as otouto does already
+resolve_username = function(who, callback, extra)
+	if callback == nil then
+		callback = fake_cb
+	end
+	local user = _resolve_username(who)
+	local result
+	if user == nil then
+	  return callback(extra, false, false)
+	end
+	user = convert_user(user)
+	return callback(extra, true, user)
 end
 
 postpone = function(random)

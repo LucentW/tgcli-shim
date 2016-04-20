@@ -148,7 +148,7 @@ build_name = function(first, last)
 	end
 end
 
-resolve_username = function(input)
+_resolve_username = function(input)
 
 	input = input:gsub('^@', '')
 	for k,v in pairs(database.users) do
