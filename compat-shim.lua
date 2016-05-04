@@ -88,6 +88,18 @@ check_if_channel = function(receiver)
 	end
 end
 
+check_if_group = function(receiver)
+	if receiver ~= nil then
+		if string.find(receiver, "chat#id") then
+			return true
+		else
+			return false
+		end
+	else
+		return false
+	end
+end
+
 reverse_receiver = function(receiver)
 	print(receiver)
 	if receiver ~= nil then
@@ -96,8 +108,12 @@ reverse_receiver = function(receiver)
 			real_destination = string.gsub(receiver, 'channel#id', '')
 			real_destination = (real_destination + 1000000000000) * -1
 		else
-			real_destination = string.gsub(receiver, 'chat#id', '')
-			real_destination = string.gsub(real_destination, 'user#id', '')
+			if check_if_group(receiver) then
+				real_destination = string.gsub(receiver, 'chat#id', '')
+				real_destination = real_destination * -1
+			else
+				real_destination = string.gsub(real_destination, 'user#id', '')
+			end
 		end
 		print(real_destination)
 		return real_destination
